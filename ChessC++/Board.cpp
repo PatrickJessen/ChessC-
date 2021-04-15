@@ -1,4 +1,6 @@
 #include "Board.h"
+#include <map>
+#include <string>
 
 Board::Board(Window* window)
 {
@@ -24,3 +26,5 @@ void Board::DrawBoard()
 		}
 	}
 }
+
+

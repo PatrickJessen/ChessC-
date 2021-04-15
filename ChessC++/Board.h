@@ -10,6 +10,7 @@ class Board
 {
 private:
 	Window* window;
+	Piece* piece;
 	std::vector<Piece> pieces;
 
 public:
