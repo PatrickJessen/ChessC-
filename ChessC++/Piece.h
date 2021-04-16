@@ -6,32 +6,37 @@ class Piece
 private:
 	Window* window;
 public:
+
 	enum pieceType
 	{
 		none = 0,
-		king = 1,
-		pawn = 2,
-		knight = 3,
-		bishop = 4,
-		rook = 5,
-		queen = 6,
-		white = 8,
-		black = 16
+		King = 1,
+		Pawn = 2,
+		Knight = 3,
+		Bishop = 4,
+		Rook = 5,
+		Queen = 6,
+		White = 8,
+		Black = 16
 	};
 
 
+	Piece(Window* window, int xPos, int yPos, bool isWhite, const char* path);
+	Piece() {}
+	~Piece();
 
-	Piece(Window* window);
-
-	void DrawPiece();
+	void LoadPieces(int tileSize);
 
 
 	pieceType type;
 	bool isWhite;
-	const std::string GetPiece();
+	const char* GetPiece();
 
 public:
 	SDL_Surface* surface;
 	SDL_Texture* tex;
+	SDL_Rect rect;
+
+	const char* whitePieces[16] = { "Assets/WhiteTower.png", "Assets/WhiteKnight.png", "Assets/WhiteBishop.png", "Assets/WhiteKing.png", "Assets/WhiteQueen.png", "Assets/WhiteBishop.png", "Assets/WhiteKnight.png", "Assets/WhiteTower.png", "Assets/WhitePawn.png", "Assets/WhitePawn.png", "Assets/WhitePawn.png", "Assets/WhitePawn.png", "Assets/WhitePawn.png", "Assets/WhitePawn.png", "Assets/WhitePawn.png", "Assets/WhitePawn.png" };
 };
 
