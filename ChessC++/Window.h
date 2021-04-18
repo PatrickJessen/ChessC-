@@ -26,6 +26,7 @@ public:
 public:
 	int GetWidth();
 	int GetHeight();
+	SDL_Event event;
 
 private:
 	bool isRunning;

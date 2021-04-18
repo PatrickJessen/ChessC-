@@ -57,7 +57,7 @@ int Window::GetHeight()
 
 void Window::HandleEvents()
 {
-	SDL_Event event;
+	
 	SDL_PollEvent(&event);
 	switch (event.type)
 	{

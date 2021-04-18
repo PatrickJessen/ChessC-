@@ -8,7 +8,7 @@ int main()
 
 	Uint32 frameStart;
 	int frameTime;
-	Window* window = new Window("Chess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 768, 600, false);
+	Window* window = new Window("Chess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 600, false);
 	Board* board = new Board(window);
 
 	while (window->Running())

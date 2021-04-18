@@ -22,10 +22,15 @@ public:
 public:
 	void DrawBoard();
 	void RenderPiecesToBoard();
+	void DragAndDrop();
+	void SelectPiece();
 
 private:
-	int boardArray[64];
-	int tileSize = 74;
+	int tileSize = 75;
+	bool hasClicked = false;
+	Piece* pieceArray[row][col];
+	Piece* tempPiece = 0;
 	SDL_Rect boardRect;
+	SDL_Rect fill;
 };
 

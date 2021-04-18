@@ -1,11 +1,12 @@
 #include "Piece.h"
 #include <string>
 
-Piece::Piece(Window* window, int xPos, int yPos, bool isWhite, const char* path)
+Piece::Piece(Window* window, int xPos, int yPos, pieceType type, bool isWhite, const char* path)
 {
 	this->window = window;
 	this->isWhite = isWhite;
-	whitePieces[15] = path;
+	this->type = type;
+	piecePath[15] = path;
 	surface = IMG_Load(path);
 	tex = SDL_CreateTextureFromSurface(window->GetRender(), surface);
 	rect = { xPos, yPos, 74, 74 };
