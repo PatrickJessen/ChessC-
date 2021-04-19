@@ -2,7 +2,6 @@
 #include "Window.h"
 #include "Piece.h"
 #include <vector>
-#include "Sprite.h"
 
 const static int row = 8;
 const static int col = 8;
@@ -11,7 +10,6 @@ class Board
 {
 private:
 	Window* window;
-	Sprite* sprite;
 	Piece* piece = new Piece();
 	std::vector<Piece*> pieces;
 
@@ -24,12 +22,17 @@ public:
 	void RenderPiecesToBoard();
 	void DragAndDrop();
 	void SelectPiece();
+	void CheckForSuicide(int i);
+	bool CheckForCapture();
+	bool IsSameColor(int i);
 
 private:
 	int tileSize = 75;
 	bool hasClicked = false;
+	int boardArray[row][col];
+	int tempPieceNr = NULL;
 	Piece* pieceArray[row][col];
-	Piece* tempPiece = 0;
+	Piece* capturedPiece[2];
 	SDL_Rect boardRect;
 	SDL_Rect fill;
 };

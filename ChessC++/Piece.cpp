@@ -6,7 +6,8 @@ Piece::Piece(Window* window, int xPos, int yPos, pieceType type, bool isWhite, c
 	this->window = window;
 	this->isWhite = isWhite;
 	this->type = type;
-	piecePath[15] = path;
+	isSelected = false;
+	piecePath[11] = path;
 	surface = IMG_Load(path);
 	tex = SDL_CreateTextureFromSurface(window->GetRender(), surface);
 	rect = { xPos, yPos, 74, 74 };
@@ -18,14 +19,11 @@ Piece::~Piece()
 	SDL_FreeSurface(surface);
 }
 
-void Piece::LoadPieces(int tileSize)
+bool Piece::CapturePiece(std::vector<Piece*> pieces, int xPos, int yPos, int index)
 {
-	SDL_Rect position = { type * tileSize, type * tileSize, tileSize, tileSize };
-	SDL_RenderCopy(window->GetRender(), tex, NULL, &position);
-}
-
-const char* Piece::GetPiece()
-{
-	//return std::string("Assets/" + std::string((isWhite ? "White" : "Black")) + "Tower" + ".png").c_str();
-	return "Assets/WhiteTower.png";
+	if (pieces[index]->rect.x == xPos && pieces[index]->rect.y == yPos)
+	{
+		return true;
+	}
+	return false;
 }

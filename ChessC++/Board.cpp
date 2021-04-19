@@ -34,7 +34,7 @@ void Board::DrawBoard()
 	{
 		for (int c = 0; c < col; c++)
 		{
-			pieceArray[r][c] = NULL;
+			boardArray[r][c] = 0;
 			boardRect = { r * tileSize, c * tileSize, tileSize, tileSize };
 			if ((r + c) % 2 == 0)
 			{
@@ -48,6 +48,9 @@ void Board::DrawBoard()
 			
 		}
 	}
+	fill = { Input::MouseX() - (Input::MouseX() % tileSize), Input::MouseY() - (Input::MouseY() % tileSize), tileSize, tileSize };
+	SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 255);
+	SDL_RenderDrawRect(window->GetRender(), &fill);
 	RenderPiecesToBoard();
 	DragAndDrop();
 	//SelectPiece();
@@ -57,36 +60,60 @@ void Board::RenderPiecesToBoard()
 { 
 	for (int i = 0; i < pieces.size(); i++)
 	{
-		pieceArray[pieces[i]->rect.y / tileSize][pieces[i]->rect.x / tileSize] = pieces[i];
-		if (pieceArray[pieces[i]->rect.y / tileSize][pieces[i]->rect.x / tileSize] != NULL)
+		boardArray[pieces[i]->rect.y / tileSize][pieces[i]->rect.x / tileSize] = pieces[i]->type;
+		if (boardArray[pieces[i]->rect.y / tileSize][pieces[i]->rect.x / tileSize] != 0)
 		{
 			SDL_RenderCopy(window->GetRender(), pieces[i]->tex, NULL, &pieces[i]->rect);
-			if (tempPiece != NULL && hasClicked)
-			{
-				tempPiece->rect.x = Input::MouseX() - tileSize / 2;
-				tempPiece->rect.y = Input::MouseY() - tileSize / 2;
-				SDL_RenderCopy(window->GetRender(), tempPiece->tex, NULL, &tempPiece->rect);
-			}
+		}
+		if (pieces[i]->isSelected)
+		{
+			pieces[i]->rect.x = Input::MouseX() - tileSize / 2;
+			pieces[i]->rect.y = Input::MouseY() - tileSize / 2;
+			SDL_RenderCopy(window->GetRender(), pieces[i]->tex, NULL, &pieces[i]->rect);
 		}
 	}
 }
 
 void Board::DragAndDrop()
 {
+	
 	if (Input::MousePressed(MouseButton::LEFT))
 	{
-		if (pieceArray[Input::MouseY() * tileSize][Input::MouseX() * tileSize] != NULL && !hasClicked)
+		if (!hasClicked)
 		{
-			std::cout << "test2";
-			tempPiece = pieceArray[Input::MouseY() / tileSize][Input::MouseX() / tileSize];
-			hasClicked = true;
+			for (int i = 0; i < pieces.size(); i++)
+			{
+				if (pieces[i]->rect.x == Input::MouseX() - (Input::MouseX() % tileSize) && pieces[i]->rect.y == Input::MouseY() - (Input::MouseY() % tileSize))
+				{
+					pieces[i]->initialXPos = pieces[i]->rect.x;
+					pieces[i]->initialYPos = pieces[i]->rect.y;
+					pieces[i]->isSelected = true;
+					tempPieceNr = i;
+					hasClicked = true;
+				}
+			}
 		}
-		else if (tempPiece != NULL)
+		else
 		{
-			std::cout << "test";
-			pieceArray[Input::MouseY() / tileSize][Input::MouseX() / tileSize] = tempPiece;
-			tempPiece = NULL;
-			hasClicked = false;
+			for (int i = 0; i < pieces.size(); i++)
+			{
+				if (pieces[i]->isSelected)
+				{
+					pieces[i]->rect.x = Input::MouseX() - (Input::MouseX() % tileSize);
+					pieces[i]->rect.y = Input::MouseY() - (Input::MouseY() % tileSize);
+					boardArray[Input::MouseY() - (Input::MouseY() % tileSize)][Input::MouseX() - (Input::MouseX() % tileSize)] = pieces[i]->type;
+				}
+				if (CheckForCapture())
+				{
+					if (pieces[i]->CapturePiece(pieces, Input::MouseX() - (Input::MouseX() % tileSize), Input::MouseY() - (Input::MouseY() % tileSize), i) && !IsSameColor(i))
+					{
+						pieces.erase(pieces.begin() + i);
+					}
+					CheckForSuicide(i);
+				}
+				pieces[i]->isSelected = false;
+				hasClicked = false;
+			}
 		}
 	}
 }
@@ -98,6 +125,37 @@ void Board::SelectPiece()
 		fill = { Input::MouseX() * tileSize, Input::MouseY() * tileSize, tileSize, tileSize };
 		hasClicked = true;
 	}
+}
+
+void Board::CheckForSuicide(int i)
+{
+	bool test = pieces[tempPieceNr]->CapturePiece(pieces, Input::MouseX() - (Input::MouseX() % tileSize), Input::MouseY() - (Input::MouseY() % tileSize), tempPieceNr);
+	bool test2 = IsSameColor(i);
+	bool test3 = pieces[tempPieceNr]->isWhite && pieces[i]->isWhite;
+	if (pieces[i]->CapturePiece(pieces, Input::MouseX() - (Input::MouseX() % tileSize), Input::MouseY() - (Input::MouseY() % tileSize), i) && IsSameColor(i))
+	{
+		pieces[tempPieceNr]->rect.x = pieces[tempPieceNr]->initialXPos;
+		pieces[tempPieceNr]->rect.y = pieces[tempPieceNr]->initialYPos;
+	}
+	std::cout << test << "\n" << test2;
+}
+
+bool Board::CheckForCapture()
+{
+	if (boardArray[Input::MouseY() - (Input::MouseY() % tileSize)][Input::MouseX() - (Input::MouseX() % tileSize)] != 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Board::IsSameColor(int i)
+{
+	if (pieces[tempPieceNr]->isWhite && !pieces[i]->isWhite || !pieces[tempPieceNr]->isWhite && pieces[i]->isWhite)
+	{
+		return false;
+	}
+	return true;
 }
 
 

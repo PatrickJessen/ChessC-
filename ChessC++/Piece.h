@@ -1,5 +1,6 @@
 #pragma once
 #include "Window.h"
+#include <vector>
 
 class Piece
 {
@@ -24,17 +25,19 @@ public:
 	Piece() {}
 	~Piece();
 
-	void LoadPieces(int tileSize);
+	bool CapturePiece(std::vector<Piece*> pieces, int xPos, int yPos, int index);
 
 
-	pieceType type;
-	bool isWhite;
-	const char* GetPiece();
 
 public:
 	SDL_Surface* surface;
 	SDL_Texture* tex;
 	SDL_Rect rect;
+	pieceType type;
+	bool isWhite;
+	bool isSelected;
+	int initialXPos = 0;
+	int initialYPos = 0;
 
 	const char* piecePath[12] = { "Assets/WhiteTower.png", "Assets/WhiteKnight.png", "Assets/WhiteBishop.png", "Assets/WhiteKing.png", "Assets/WhiteQueen.png", "Assets/WhitePawn.png", "Assets/BlackTower.png", "Assets/BlackKnight.png", "Assets/BlackBishop.png", "Assets/BlackKing.png", "Assets/BlackQueen.png", "Assets/BlackPawn.png" };
 };
