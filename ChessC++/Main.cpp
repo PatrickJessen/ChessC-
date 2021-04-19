@@ -1,5 +1,6 @@
 #include "Window.h"
-#include "Board.h"
+#include "BoardManager.h"
+#include "UserManager.h"
 
 int main()
 {
@@ -9,11 +10,14 @@ int main()
 	Uint32 frameStart;
 	int frameTime;
 	Window* window = new Window("Chess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 600, false);
-	Board* board = new Board(window);
+	//Board* board = new Board(window);
+	BoardManager* manager = new BoardManager(window);
+	UserManager* userManager = new UserManager(manager->board);
 
 	while (window->Running())
 	{
-		board->DrawBoard();
+		manager->Update();
+		userManager->Update(window);
 		window->Update();
 		window->Clear();
 	}

@@ -10,30 +10,27 @@ class Board
 {
 private:
 	Window* window;
-	Piece* piece = new Piece();
-	std::vector<Piece*> pieces;
 
 public:
 	Board(Window* window);
+	~Board();
 
 
 public:
 	void DrawBoard();
-	void RenderPiecesToBoard();
-	void DragAndDrop();
-	void SelectPiece();
-	void CheckForSuicide(int i);
-	bool CheckForCapture();
-	bool IsSameColor(int i);
+	void DrawPieces();
+	void DrawHighlighter();
+
+	std::vector<Piece*> pieces;
+	SDL_Rect boardRect;
+	int tileSize = 75;
+	bool hasPiece = false;
+	bool isClicked = false;
+	int boardArray[col][row];
+	int clickRectX = 0;
+	int clickRectY = 0;
 
 private:
-	int tileSize = 75;
-	bool hasClicked = false;
-	int boardArray[row][col];
-	int tempPieceNr = NULL;
-	Piece* pieceArray[row][col];
-	Piece* capturedPiece[2];
-	SDL_Rect boardRect;
-	SDL_Rect fill;
+	const char* piecePath[12] = { "Assets/WhiteTower.png", "Assets/WhiteKnight.png", "Assets/WhiteBishop.png", "Assets/WhiteKing.png", "Assets/WhiteQueen.png", "Assets/WhitePawn.png", "Assets/BlackTower.png", "Assets/BlackKnight.png", "Assets/BlackBishop.png", "Assets/BlackKing.png", "Assets/BlackQueen.png", "Assets/BlackPawn.png" };
 };
 

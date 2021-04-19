@@ -27,3 +27,8 @@ bool Piece::CapturePiece(std::vector<Piece*> pieces, int xPos, int yPos, int ind
 	}
 	return false;
 }
+
+void Piece::ShowAvailableMoves()
+{
+}
+
