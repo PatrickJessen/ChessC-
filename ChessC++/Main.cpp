@@ -9,7 +9,7 @@ int main()
 
 	Uint32 frameStart;
 	int frameTime;
-	Window* window = new Window("Chess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 600, false);
+	Window* window = new Window("Chess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 750, 750, false);
 	//Board* board = new Board(window);
 	BoardManager* manager = new BoardManager(window);
 	UserManager* userManager = new UserManager(manager->board);

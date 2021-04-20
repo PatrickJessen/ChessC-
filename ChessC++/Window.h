@@ -6,7 +6,6 @@
 
 class Window
 {
-	friend class Input;
 private:
 	int width;
 	int height;

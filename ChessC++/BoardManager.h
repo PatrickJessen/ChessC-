@@ -15,6 +15,7 @@ public:
 
 private:
 	void DrawSquare();
+	void Clear();
 	SDL_Rect sqRect;
 };
 

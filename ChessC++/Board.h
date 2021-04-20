@@ -10,6 +10,7 @@ class Board
 {
 private:
 	Window* window;
+	Piece* piece = new Piece();
 
 public:
 	Board(Window* window);
@@ -20,15 +21,22 @@ public:
 	void DrawBoard();
 	void DrawPieces();
 	void DrawHighlighter();
+	void ShowAvailableMoves();
+	bool IsSameColor(int x, int y);
 
 	std::vector<Piece*> pieces;
 	SDL_Rect boardRect;
-	int tileSize = 75;
+	SDL_Rect highlighterRect;
+	Piece* clickedPiece;
+	std::vector<Vector2D*> allPositions;
+	std::vector<Vector2D*> tempPos;
+	int tileSize = 94;
 	bool hasPiece = false;
 	bool isClicked = false;
 	int boardArray[col][row];
-	int clickRectX = 0;
-	int clickRectY = 0;
+	int mouseX = 0;
+	int mouseY = 0;
+	int board = 0;
 
 private:
 	const char* piecePath[12] = { "Assets/WhiteTower.png", "Assets/WhiteKnight.png", "Assets/WhiteBishop.png", "Assets/WhiteKing.png", "Assets/WhiteQueen.png", "Assets/WhitePawn.png", "Assets/BlackTower.png", "Assets/BlackKnight.png", "Assets/BlackBishop.png", "Assets/BlackKing.png", "Assets/BlackQueen.png", "Assets/BlackPawn.png" };
