@@ -15,7 +15,6 @@ void BoardManager::Update()
 	board->DrawBoard();
 	board->DrawPieces();
 	DrawSquare();
-	Clear();
 }
 
 void BoardManager::DrawSquare()

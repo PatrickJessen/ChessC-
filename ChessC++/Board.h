@@ -31,12 +31,13 @@ public:
 	std::vector<Vector2D*> allPositions;
 	std::vector<Vector2D*> tempPos;
 	int tileSize = 94;
-	bool hasPiece = false;
 	bool isClicked = false;
 	int boardArray[col][row];
 	int mouseX = 0;
 	int mouseY = 0;
 	int board = 0;
+	int moveX = 0;
+	int moveY = 0;
 
 private:
 	const char* piecePath[12] = { "Assets/WhiteTower.png", "Assets/WhiteKnight.png", "Assets/WhiteBishop.png", "Assets/WhiteKing.png", "Assets/WhiteQueen.png", "Assets/WhitePawn.png", "Assets/BlackTower.png", "Assets/BlackKnight.png", "Assets/BlackBishop.png", "Assets/BlackKing.png", "Assets/BlackQueen.png", "Assets/BlackPawn.png" };

@@ -18,6 +18,7 @@ int main()
 	{
 		manager->Update();
 		userManager->Update(window);
+		manager->Clear();
 		window->Update();
 		window->Clear();
 	}

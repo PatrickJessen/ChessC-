@@ -23,17 +23,13 @@ public:
 		Knight = 3,
 		Bishop = 4,
 		Rook = 5,
-		Queen = 6,
-		BKing = 7,
-		BPawn = 8,
-		BKnight = 9,
-		BBishop = 10,
-		BRook = 11,
-		BQueen = 12,
+		Queen = 6
 	};
 	Piece(Window* window, int xPos, int yPos, pieceType type, bool isWhite, std::vector<Vector2D*> possiblePositions, const char* path);
 	Piece() {}
 	~Piece();
+
+	Piece* GetPiece(std::vector<Piece*> pieces, int x, int y);
 
 	bool CapturePiece(std::vector<Piece*> pieces, int xPos, int yPos, int index);
 

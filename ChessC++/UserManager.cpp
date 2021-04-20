@@ -15,6 +15,7 @@ void UserManager::ClickPiece(Window* window)
 {
 	if (Input::MousePressed(MouseButton::LEFT))
 	{
+		MovePiece();
 		if (board->board != 0)
 		{
 			std::cout << board->mouseX << " + " << board->mouseY << " + " << board->board << "\n";
@@ -27,6 +28,25 @@ void UserManager::ClickPiece(Window* window)
 				{
 					board->clickedPiece = board->pieces[i];
 				}
+			}
+		}
+	}
+}
+
+void UserManager::MovePiece()
+{
+	if (board->isClicked)
+	{
+		int x = board->mouseX / board->tileSize;
+		int y = board->mouseY / board->tileSize;
+		for (int i = 0; i < board->allPositions.size(); i++)
+		{
+			if (board->allPositions[i]->x == x && board->allPositions[i]->y == y)
+			{
+				board->boardArray[board->clickedPiece->gridPosY][board->clickedPiece->gridPosX] = 0;
+				board->clickedPiece->rect.x = board->mouseX;
+				board->clickedPiece->rect.y = board->mouseY;
+				board->isClicked = false;
 			}
 		}
 	}

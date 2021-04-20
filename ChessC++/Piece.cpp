@@ -22,6 +22,18 @@ Piece::~Piece()
 	SDL_FreeSurface(surface);
 }
 
+Piece* Piece::GetPiece(std::vector<Piece*> pieces, int x, int y)
+{
+	for (int i = 0; i < pieces.size(); i++)
+	{
+		if (pieces[i]->gridPosX == x && pieces[i]->gridPosY == y)
+		{
+			return pieces[i];
+		}
+	}
+	return 0;
+}
+
 bool Piece::CapturePiece(std::vector<Piece*> pieces, int xPos, int yPos, int index)
 {
 	if (pieces[index]->rect.x == xPos && pieces[index]->rect.y == yPos)

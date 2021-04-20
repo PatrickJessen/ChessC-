@@ -12,10 +12,11 @@ public:
 
 public:
 	void Update();
+	void Clear();
 
 private:
 	void DrawSquare();
-	void Clear();
+
 	SDL_Rect sqRect;
 };
 

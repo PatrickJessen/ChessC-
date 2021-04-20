@@ -14,6 +14,7 @@ public:
 
 private:
 	void ClickPiece(Window* window);
+	void MovePiece();
 
 	SDL_Rect test;
 };

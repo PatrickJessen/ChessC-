@@ -4,6 +4,7 @@
 
 Board::Board(Window* window)
 {
+	//todo: remove list from piece parameters and then create a function to add the a list of Vector2D to all the pieces with their available moves. to be able to update the positions after the list has been cleard and deleted for memory handling.
 	this->window = window;
 	pieces.push_back(new Piece(window, 0 * tileSize, 7 * tileSize, piece->Rook, true, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[0]));
 	pieces.push_back(new Piece(window, 1 * tileSize, 7 * tileSize, piece->Knight, true, { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1),
@@ -17,17 +18,17 @@ Board::Board(Window* window)
 		new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) }, piece->piecePath[1]));
 	pieces.push_back(new Piece(window, 7 * tileSize, 7 * tileSize, piece->Rook, true, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[0]));
 
-	pieces.push_back(new Piece(window, 0 * tileSize, 0 * tileSize, piece->BRook, false, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[6]));
-	pieces.push_back(new Piece(window, 1 * tileSize, 0 * tileSize, piece->BKnight, false, { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1),
+	pieces.push_back(new Piece(window, 0 * tileSize, 0 * tileSize, piece->Rook, false, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[6]));
+	pieces.push_back(new Piece(window, 1 * tileSize, 0 * tileSize, piece->Knight, false, { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1),
 		new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) }, piece->piecePath[7]));
-	pieces.push_back(new Piece(window, 2 * tileSize, 0 * tileSize, piece->BBishop, false, { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[8]));
-	pieces.push_back(new Piece(window, 3 * tileSize, 0 * tileSize, piece->BQueen, false, { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1),
+	pieces.push_back(new Piece(window, 2 * tileSize, 0 * tileSize, piece->Bishop, false, { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[8]));
+	pieces.push_back(new Piece(window, 3 * tileSize, 0 * tileSize, piece->Queen, false, { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1),
 		new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[10]));
-	pieces.push_back(new Piece(window, 4 * tileSize, 0 * tileSize, piece->BKing, false, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[9]));
-	pieces.push_back(new Piece(window, 5 * tileSize, 0 * tileSize, piece->BBishop, false, { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[8]));
-	pieces.push_back(new Piece(window, 6 * tileSize, 0 * tileSize, piece->BKnight, false, { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1),
+	pieces.push_back(new Piece(window, 4 * tileSize, 0 * tileSize, piece->King, false, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[9]));
+	pieces.push_back(new Piece(window, 5 * tileSize, 0 * tileSize, piece->Bishop, false, { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[8]));
+	pieces.push_back(new Piece(window, 6 * tileSize, 0 * tileSize, piece->Knight, false, { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1),
 		new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) }, piece->piecePath[7]));
-	pieces.push_back(new Piece(window, 7 * tileSize, 0 * tileSize, piece->BRook, false, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[6]));
+	pieces.push_back(new Piece(window, 7 * tileSize, 0 * tileSize, piece->Rook, false, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[6]));
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -83,8 +84,6 @@ void Board::DrawHighlighter()
 		if (highlighterRect.w != 0)
 		{
 			ShowAvailableMoves();
-			//SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 255);
-			//SDL_RenderFillRect(window->GetRender(), &highlighterRect);
 			for (int i = 0; i < allPositions.size(); i++)
 			{
 				highlighterRect.x = allPositions[i]->x * tileSize;
@@ -100,32 +99,38 @@ void Board::DrawHighlighter()
 
 void Board::ShowAvailableMoves()
 {
-	
 	for (int i = 0; i < clickedPiece->possibleMoves.size(); i++)
 	{
-		int x = clickedPiece->gridPosX + clickedPiece->possibleMoves[i]->x;
-		int y = clickedPiece->gridPosY + clickedPiece->possibleMoves[i]->y;
-		if (!IsSameColor(x, y))
+		moveX = clickedPiece->gridPosX + clickedPiece->possibleMoves[i]->x;
+		moveY = clickedPiece->gridPosY + clickedPiece->possibleMoves[i]->y;
+
+		if (!IsSameColor(moveX, moveY))
 		{
-			if (clickedPiece->type != 1 || clickedPiece->type != 2)
+			if (clickedPiece->type != 3 && clickedPiece->type != 1 && clickedPiece->type != 2)
 			{
-				while (boardArray[y][x] == 0)
+				while (boardArray[moveY][moveX] == 0)
 				{
-					allPositions.push_back(new Vector2D(x, y));
-					x += clickedPiece->possibleMoves[i]->x;
-					y += clickedPiece->possibleMoves[i]->y;
+					allPositions.push_back(new Vector2D(moveX, moveY));
+					moveX += clickedPiece->possibleMoves[i]->x;
+					moveY += clickedPiece->possibleMoves[i]->y;
 				}
 			}
-			allPositions.push_back(new Vector2D(x, y));
+			allPositions.push_back(new Vector2D(moveX, moveY));
 		}
 	}
 }
 
 bool Board::IsSameColor(int x, int y)
 {
-	if (boardArray[y][x] == piece->type && piece->isWhite && clickedPiece->isWhite)
+	for (int i = 0; i < pieces.size(); i++)
 	{
-		return true;
+		if (boardArray[y][x] == pieces[i]->type)
+		{
+			if (clickedPiece->isWhite && pieces[i]->isWhite || !clickedPiece->isWhite && !pieces[i]->isWhite)
+			{
+				return true;
+			}
+		}
 	}
 	return false;
 }
