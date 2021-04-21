@@ -1,25 +1,17 @@
 #pragma once
-#include "Board.h"
+#include "Input.h"
 
 class UserManager
 {
-private:
-	Board* board;
+public:
+	UserManager();
+
+	void ClickPiece();
+	void MovePiece(int x, int y);
 
 public:
-	UserManager(Board* board);
-
-public:
-	void Update(Window* window);
-
-private:
-	void ClickPiece(Window* window);
-	void MovePiece();
-	void CapturePiece(int x, int y);
-
-	int tempPiecePosX = 0;
-	int tempPiecePosY = 0;
-
-	SDL_Rect test;
+	bool isClicked = false;;
+	int clickedX;
+	int clickedY;
 };
 

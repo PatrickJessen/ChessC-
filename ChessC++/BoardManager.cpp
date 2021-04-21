@@ -7,29 +7,50 @@ BoardManager::BoardManager(Window* window)
 	board = new Board(window);
 }
 
-void BoardManager::Update()
+void BoardManager::SetClickedPiece(int x, int y)
 {
-	board->mouseX = Input::MouseX() - (Input::MouseX() % board->tileSize);
-	board->mouseY = Input::MouseY() - (Input::MouseY() % board->tileSize);
-	board->board = board->boardArray[board->mouseY / board->tileSize][board->mouseX / board->tileSize];
-	board->DrawBoard();
-	board->DrawPieces();
-	DrawSquare();
-}
-
-void BoardManager::DrawSquare()
-{
-	sqRect = { Input::MouseX() - (Input::MouseX() % board->tileSize), Input::MouseY() - (Input::MouseY() % board->tileSize), board->tileSize, board->tileSize };
-	SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 255);
-	SDL_RenderDrawRect(window->GetRender(), &sqRect);
-}
-
-void BoardManager::Clear()
-{
-	for (int i = 0; i < board->allPositions.size(); i++)
+	for (int i = 0; i < board->pieces.size(); i++)
 	{
-		delete board->allPositions[i];
+		if (board->pieces[i]->gridPosX == x && board->pieces[i]->gridPosY == y)
+		{
+			clickedPiece = board->pieces[i];
+		}
 	}
-	board->allPositions.clear();
 }
+
+Piece* BoardManager::GetClickedPiece()
+{
+	return clickedPiece;
+}
+
+int BoardManager::GetBoardArray(int x, int y)
+{
+	return board->boardArray[y][x];
+}
+
+void BoardManager::SetBoardArray(int x, int y, int value)
+{
+	board->boardArray[y][x] = value;
+}
+
+std::vector<Piece*> BoardManager::GetPieceList()
+{
+	return board->pieces;
+}
+
+void BoardManager::SetBoardRect(int x, int y)
+{
+	board->boardRect = { x * board->tileSize, y * board->tileSize, board->tileSize, board->tileSize };
+}
+
+int BoardManager::GetTileSize()
+{
+	return board->tileSize;
+}
+
+SDL_Rect& BoardManager::GetBoardRect()
+{
+	return board->boardRect;
+}
+
 

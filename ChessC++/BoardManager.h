@@ -4,19 +4,24 @@
 class BoardManager
 {
 private:
+	Board* board;
 	Window* window;
 
 public:
-	Board* board;
 	BoardManager(Window* window);
 
-public:
-	void Update();
-	void Clear();
+	void SetClickedPiece(int x, int y);
+	Piece* GetClickedPiece();
+	int GetBoardArray(int x, int y);
+	void SetBoardArray(int x, int y, int value);
+	void SetBoardRect(int x, int y);
+	int GetTileSize();
+	SDL_Rect& GetBoardRect();
+	std::vector<Piece*> GetPieceList();
+
+	std::vector<Vector2D*> availableMoves;
 
 private:
-	void DrawSquare();
-
-	SDL_Rect sqRect;
+	Piece* clickedPiece;
 };
 

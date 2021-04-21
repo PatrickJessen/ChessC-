@@ -1,19 +1,18 @@
 #include "Piece.h"
 #include <string>
 
-Piece::Piece(Window* window, int xPos, int yPos, pieceType type, bool isWhite, std::vector<Vector2D*> possiblePositions, const char* path)
+Piece::Piece(Window* window, int type, int tileSize, bool isWhite, int rectX, int rectY)
 {
 	this->window = window;
-	this->isWhite = isWhite;
 	this->type = type;
-	this->possibleMoves = possiblePositions;
-	isSelected = false;
-	piecePath[11] = path;
+	this->isWhite = isWhite;
+
+	StartProperties(tileSize);
 	surface = IMG_Load(path);
 	tex = SDL_CreateTextureFromSurface(window->GetRender(), surface);
-	rect = { xPos, yPos, 90, 90 };
-	gridPosX = xPos / 90;
-	gridPosY = yPos / 90;
+	rect = { rectX * tileSize, rectY * tileSize, size, size };
+	gridPosX = rectX / size;
+	gridPosY = rectX / size;
 }
 
 Piece::~Piece()
@@ -22,29 +21,78 @@ Piece::~Piece()
 	SDL_FreeSurface(surface);
 }
 
-Piece* Piece::GetPiece(std::vector<Piece*> pieces, int x, int y)
+void Piece::StartProperties(int tileSize)
 {
-	for (int i = 0; i < pieces.size(); i++)
+	switch (type)
 	{
-		if (pieces[i]->gridPosX == x && pieces[i]->gridPosY == y)
+	case 5:
+		moves = { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1), new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
+		if (isWhite)
+			path = "Assets/WhiteKing.png";
+		else
+			path = "Assets/BlackKing.png";
+		break;
+	case 9:
+		if (isWhite)
 		{
-			return pieces[i];
+			moves = { new Vector2D(0, -1), new Vector2D(0, -2) };
+			path = "Assets/WhitePawn.png";
 		}
+		else
+		{
+			moves = { new Vector2D(0, 1), new Vector2D(0, 2) };
+			path = "Assets/BlackPawn.png";
+		}
+		break;
+	case 2:
+		moves = { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1), new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) };
+		if (isWhite)
+			path = "Assets/WhiteKnight.png";
+		else
+			path = "Assets/BlackKnight.png";
+		break;
+	case 3:
+		moves = { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
+		if (isWhite)
+			path = "Assets/WhiteBishop.png";
+		else
+			path = "Assets/BlackBishop.png";
+		break;
+	case 1:
+		moves = { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) };
+		if (isWhite)
+			path = "Assets/WhiteTower.png";
+		else
+			path = "Assets/BlackTower.png";
+		break;
+	case 4:
+		moves = { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1), new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
+		if (isWhite)
+			path = "Assets/WhiteQueen.png";
+		else
+			path = "Assets/BlackQueen.png";
+		break;
+	case 7:
+		moves = { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1), new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) };
+		if (isWhite)
+			path = "Assets/WhiteKnight.png";
+		else
+			path = "Assets/BlackKnight.png";
+		break;
+	case 6:
+		moves = { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
+		if (isWhite)
+			path = "Assets/WhiteBishop.png";
+		else
+			path = "Assets/BlackBishop.png";
+		break;
+	case 8:
+		moves = { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) };
+		if (isWhite)
+			path = "Assets/WhiteTower.png";
+		else
+			path = "Assets/BlackTower.png";
+		break;
 	}
-	return 0;
-}
-
-bool Piece::CapturePiece(std::vector<Piece*> pieces, int xPos, int yPos, int index)
-{
-	if (pieces[index]->rect.x == xPos && pieces[index]->rect.y == yPos)
-	{
-		return true;
-	}
-	return false;
-}
-
-void Piece::ShowAvailableMoves(Piece* clickedPiece, int board, SDL_Rect &rect)
-{
-	
 }
 
