@@ -4,7 +4,6 @@
 
 Board::Board(Window* window)
 {
-	//todo: remove list from piece parameters and then create a function to add the a list of Vector2D to all the pieces with their available moves. to be able to update the positions after the list has been cleard and deleted for memory handling.
 	this->window = window;
 	pieces.push_back(new Piece(window, 0 * tileSize, 7 * tileSize, piece->Rook, true, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[0]));
 	pieces.push_back(new Piece(window, 1 * tileSize, 7 * tileSize, piece->Knight, true, { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1),
@@ -12,7 +11,8 @@ Board::Board(Window* window)
 	pieces.push_back(new Piece(window, 2 * tileSize, 7 * tileSize, piece->Bishop, true, { new Vector2D( -1, 1 ), new Vector2D( -1, -1 ), new Vector2D( 1, 1 ), new Vector2D( 1, -1 ) }, piece->piecePath[2]));
 	pieces.push_back(new Piece(window, 3 * tileSize, 7 * tileSize, piece->Queen, true, { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1), 
 		new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[4]));
-	pieces.push_back(new Piece(window, 4 * tileSize, 7 * tileSize, piece->King, true, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1), }, piece->piecePath[3]));
+	pieces.push_back(new Piece(window, 4 * tileSize, 7 * tileSize, piece->King, true, { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1),
+		new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[3]));
 	pieces.push_back(new Piece(window, 5 * tileSize, 7 * tileSize, piece->Bishop, true, { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[2]));
 	pieces.push_back(new Piece(window, 6 * tileSize, 7 * tileSize, piece->Knight, true, { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1),
 		new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) }, piece->piecePath[1]));
@@ -24,7 +24,8 @@ Board::Board(Window* window)
 	pieces.push_back(new Piece(window, 2 * tileSize, 0 * tileSize, piece->Bishop, false, { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[8]));
 	pieces.push_back(new Piece(window, 3 * tileSize, 0 * tileSize, piece->Queen, false, { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1),
 		new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[10]));
-	pieces.push_back(new Piece(window, 4 * tileSize, 0 * tileSize, piece->King, false, { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) }, piece->piecePath[9]));
+	pieces.push_back(new Piece(window, 4 * tileSize, 0 * tileSize, piece->King, false, { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1),
+		new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[9]));
 	pieces.push_back(new Piece(window, 5 * tileSize, 0 * tileSize, piece->Bishop, false, { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) }, piece->piecePath[8]));
 	pieces.push_back(new Piece(window, 6 * tileSize, 0 * tileSize, piece->Knight, false, { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1),
 		new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) }, piece->piecePath[7]));
@@ -90,7 +91,7 @@ void Board::DrawHighlighter()
 				highlighterRect.y = allPositions[i]->y * tileSize;
 				highlighterRect.w = tileSize;
 				highlighterRect.h = tileSize;
-				SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 255);
+				SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 100);
 				SDL_RenderFillRect(window->GetRender(), &highlighterRect);
 			}
 		}
@@ -124,7 +125,8 @@ bool Board::IsSameColor(int x, int y)
 {
 	for (int i = 0; i < pieces.size(); i++)
 	{
-		if (boardArray[y][x] == pieces[i]->type)
+		//std::cout << boardArray[clickedPiece->possibleMoves[j]->y][clickedPiece->possibleMoves[j]->x] << "\n";
+		if (x == pieces[i]->gridPosX && y == pieces[i]->gridPosY)
 		{
 			if (clickedPiece->isWhite && pieces[i]->isWhite || !clickedPiece->isWhite && !pieces[i]->isWhite)
 			{

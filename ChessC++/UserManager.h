@@ -15,6 +15,10 @@ public:
 private:
 	void ClickPiece(Window* window);
 	void MovePiece();
+	void CapturePiece(int x, int y);
+
+	int tempPiecePosX = 0;
+	int tempPiecePosY = 0;
 
 	SDL_Rect test;
 };

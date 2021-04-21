@@ -31,6 +31,5 @@ void BoardManager::Clear()
 		delete board->allPositions[i];
 	}
 	board->allPositions.clear();
-	board->allPositions.swap(board->tempPos);
 }
 
