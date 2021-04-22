@@ -48,6 +48,10 @@ void Draw::DrawPiece()
 
 void Draw::DrawAvailableMoves()
 {
+	for (int i = 0; i < board->GetClickedPiece()->moves.size(); i++)
+	{
+
+	}
 }
 
 void Draw::DrawSquare()
