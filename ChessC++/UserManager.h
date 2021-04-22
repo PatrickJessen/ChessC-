@@ -8,10 +8,11 @@ public:
 	UserManager();
 
 	void ClickPiece(int tileSize);
-	void MovePiece(Piece* clickedPiece, int size, bool secondClick);
+	void MovePiece(Piece* clickedPiece, int size);
 
 public:
-	bool isClicked = false;;
+	bool isClicked = false;
+	bool canMove = false;
 	int clickedX;
 	int clickedY;
 

@@ -5,10 +5,14 @@ Draw::Draw(Window* window)
 	this->window = window;
 }
 
-void Draw::DrawAvailableMoves(SDL_Rect& movesRect)
+void Draw::DrawAvailableMoves(Piece* piece, int tileSize)
 {
-	SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 100);
-	SDL_RenderFillRect(window->GetRender(), &movesRect);
+	for (int i = 0; i < piece->availableMoves.size(); i++)
+	{
+		movesRect = { piece->availableMoves[i]->x * tileSize, piece->availableMoves[i]->y * tileSize, tileSize, tileSize };
+		SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 50);
+		SDL_RenderFillRect(window->GetRender(), &movesRect);
+	}
 }
 
 void Draw::DrawBoard(SDL_Rect &boardRect, int r, int c)

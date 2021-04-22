@@ -12,32 +12,38 @@ void UserManager::ClickPiece(int tileSize)
 	clickedY = Input::MouseY() - (Input::MouseY() % tileSize);
 	if (Input::MousePressed(MouseButton::LEFT))
 	{
-		isClicked = true;
-		timesClicked++;
-		if (timesClicked > 2)
+		if (isClicked)
 		{
-			timesClicked = 0;
 			isClicked = false;
+			canMove = true;
 		}
+		else if (canMove)
+		{
+			canMove = false;
+			isClicked = true;
+		}
+		else
+			isClicked = true;
 	}
 }
 
-void UserManager::MovePiece(Piece* clickedPiece, int size, bool secondClick)
+void UserManager::MovePiece(Piece* clickedPiece, int size)
 {
-	if (timesClicked == 2)
+	if (canMove)
 	{
-		for (int i = 0; i < clickedPiece->moves.size(); i++)
+		int x = clickedX / size;
+		int y = clickedY / size;
+		for (int i = 0; i < clickedPiece->availableMoves.size(); i++)
 		{
-			int x = clickedPiece->moves[i]->x + clickedPiece->gridPosX;
-			int y = clickedPiece->moves[i]->y + clickedPiece->gridPosY;
-			if (x == clickedX / size && y == clickedY / size)
+			if (x == clickedPiece->availableMoves[i]->x && y == clickedPiece->availableMoves[i]->y)
 			{
-				clickedPiece->gridPosX = clickedX / size;
-				clickedPiece->gridPosY = clickedY / size;
+				clickedPiece->gridPosX = x;
+				clickedPiece->gridPosY = y;
 				clickedPiece->rect.x = clickedX;
 				clickedPiece->rect.y = clickedY;
 				return;
 			}
 		}
+		canMove = false;
 	}
 }

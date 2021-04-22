@@ -9,17 +9,18 @@ GameManager::GameManager(Window* window)
 
 void GameManager::UpdateLogic()
 {
+	Clear();
 	user->ClickPiece(board->GetTileSize());
 	UpdateClickedPiece();
-	user->MovePiece(board->GetClickedPiece(), board->GetTileSize(), secondClick);
 }
 
 void GameManager::UpdateGUI()
 {
 	CreateBoard();
+	CreateAvailableMoves();
+	user->MovePiece(board->GetClickedPiece(), board->GetTileSize());
 	CreatePieces();
 	draw->DrawSquare(board->GetTileSize());
-	CreateAvailableMoves();
 }
 
 void GameManager::CreateBoard()
@@ -48,9 +49,12 @@ void GameManager::CreatePieces()
 
 void GameManager::CreateAvailableMoves()
 {
+	int test[col][row];
 	if (board->GetClickedPiece() != NULL)
 	{
-		for (int i = 0; i < board->GetClickedPiece()->moves.size(); i++)
+		board->GetAvailableMoves();
+		draw->DrawAvailableMoves(board->GetClickedPiece(), board->GetTileSize());
+		/*for (int i = 0; i < board->GetClickedPiece()->moves.size(); i++)
 		{
 			int x = board->GetClickedPiece()->moves[i]->x + board->GetClickedPiece()->gridPosX;
 			int y = board->GetClickedPiece()->moves[i]->y + board->GetClickedPiece()->gridPosY;
@@ -62,7 +66,7 @@ void GameManager::CreateAvailableMoves()
 				y++;
 			}
 			board->GetClickedPiece()->availableMoves.push_back(new Vector2D(x, y));
-		}
+		}*/
 	}
 }
 
@@ -72,7 +76,18 @@ void GameManager::UpdateClickedPiece()
 	{
 		board->SetClickedPiece(user->clickedX / board->GetTileSize(), user->clickedY / board->GetTileSize());
 	}
-	user->isClicked = false;
+}
+
+void GameManager::Clear()
+{
+	if (board->GetClickedPiece() != NULL)
+	{
+		for (int i = 0; i < board->GetClickedPiece()->availableMoves.size(); i++)
+		{
+			delete board->GetClickedPiece()->availableMoves[i];
+		}
+		board->GetClickedPiece()->availableMoves.clear();
+	}
 }
 
 bool GameManager::IsPieceSameColor(int x, int y)

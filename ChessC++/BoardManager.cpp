@@ -48,6 +48,23 @@ int BoardManager::GetTileSize()
 	return board->tileSize;
 }
 
+void BoardManager::GetAvailableMoves()
+{
+	for (int i = 0; i < clickedPiece->moves.size(); i++)
+	{
+		int x = clickedPiece->moves[i]->x + clickedPiece->gridPosX;
+		int y = clickedPiece->moves[i]->y + clickedPiece->gridPosY;
+
+		while (clickedPiece->CanContinueMoving() && board->boardArray[y][x] == 0)
+		{
+			clickedPiece->availableMoves.push_back(new Vector2D(x, y));
+			x += clickedPiece->moves[i]->x;
+			y += clickedPiece->moves[i]->y;
+		}
+		clickedPiece->availableMoves.push_back(new Vector2D(x, y));
+	}
+}
+
 SDL_Rect& BoardManager::GetBoardRect()
 {
 	return board->boardRect;

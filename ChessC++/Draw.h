@@ -11,12 +11,13 @@ private:
 public:
 	Draw(Window* window);
 
-	void DrawAvailableMoves(SDL_Rect &movesRect);
+	void DrawAvailableMoves(Piece* piece, int tileSize);
 	void DrawBoard(SDL_Rect & boardRect, int r, int c);
 	void DrawPiece(SDL_Texture &tex, SDL_Rect& pieceRect);
 	void DrawSquare(int tileSize);
 
 private:
 	SDL_Rect sqRect;
+	SDL_Rect movesRect;
 };
 

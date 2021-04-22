@@ -20,10 +20,14 @@ private:
 	void CreatePieces();
 	void CreateAvailableMoves();
 	void UpdateClickedPiece();
+	void Clear();
 
 	bool IsPieceSameColor(int x, int y);
 
 	bool secondClick = false;
+
+	int test1 = 0;
+	int test2 = 0;
 
 private:
 	SDL_Rect highlighterRect;

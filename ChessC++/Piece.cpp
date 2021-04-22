@@ -21,8 +21,21 @@ Piece::~Piece()
 	SDL_FreeSurface(surface);
 }
 
-void Piece::ShowAvailableMoves()
+void Piece::ShowAvailableMoves(int board[8][8])
 {
+	for (int i = 0; i < moves.size(); i++)
+	{
+		int x = moves[i]->x + gridPosX;
+		int y = moves[i]->y + gridPosY;
+
+		while (CanContinueMoving() && board[y][x] == 0)
+		{
+			availableMoves.push_back(new Vector2D(x, y));
+			x += moves[i]->x;
+			y += moves[i]->y;
+		}
+		availableMoves.push_back(new Vector2D(x, y));
+	}
 }
 
 bool Piece::CanContinueMoving()

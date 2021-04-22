@@ -16,10 +16,9 @@ public:
 	void SetBoardArray(int x, int y, int value);
 	void SetBoardRect(int x, int y);
 	int GetTileSize();
+	void GetAvailableMoves();
 	SDL_Rect& GetBoardRect();
 	std::vector<Piece*> GetPieceList();
-
-	std::vector<Vector2D*> availableMoves;
 
 private:
 	Piece* clickedPiece;

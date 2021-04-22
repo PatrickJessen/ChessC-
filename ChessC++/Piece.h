@@ -31,7 +31,7 @@ public:
 	Piece(Window* window, int type, int tileSize, bool isWhite, int rectX, int rectY);
 	~Piece();
 
-	void ShowAvailableMoves();
+	void ShowAvailableMoves(int board[8][8]);
 
 	bool CanContinueMoving();
 
