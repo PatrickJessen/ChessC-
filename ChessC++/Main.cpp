@@ -1,17 +1,15 @@
 #include "Window.h"
-#include "BoardManager.h"
-#include "UserManager.h"
-#include "Draw.h"
+#include "GameManager.h"
 
 int main()
 {
 	Window* window = new Window("Chess", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 750, 750, false);
-	BoardManager* manager = new BoardManager(window);
-	Draw* draw = new Draw(window, manager);
+	GameManager* manager = new GameManager(window);
 
 	while (window->Running())
 	{
-		draw->Update();
+		manager->UpdateLogic();
+		manager->UpdateGUI();
 		//manager->Update();
 		window->Update();
 		window->Clear();

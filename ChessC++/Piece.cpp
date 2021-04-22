@@ -11,14 +11,27 @@ Piece::Piece(Window* window, int type, int tileSize, bool isWhite, int rectX, in
 	surface = IMG_Load(path);
 	tex = SDL_CreateTextureFromSurface(window->GetRender(), surface);
 	rect = { rectX * tileSize, rectY * tileSize, size, size };
-	gridPosX = rectX / size;
-	gridPosY = rectX / size;
+	gridPosX = rectX * tileSize / size;
+	gridPosY = rectY * tileSize / size;
 }
 
 Piece::~Piece()
 {
 	SDL_DestroyTexture(tex);
 	SDL_FreeSurface(surface);
+}
+
+void Piece::ShowAvailableMoves()
+{
+}
+
+bool Piece::CanContinueMoving()
+{
+	if (type == 2 || type == 5 || type == 7 || type == 9)
+	{
+		return false;
+	}
+	return true;
 }
 
 void Piece::StartProperties(int tileSize)

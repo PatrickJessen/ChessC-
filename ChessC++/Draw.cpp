@@ -1,62 +1,38 @@
 #include "Draw.h"
 
-Draw::Draw(Window* window, BoardManager* board)
+Draw::Draw(Window* window)
 {
 	this->window = window;
-	this->board = board;
 }
 
-void Draw::Update()
+void Draw::DrawAvailableMoves(SDL_Rect& movesRect)
 {
-	DrawBoard();
-	DrawPiece();
-	DrawAvailableMoves();
-	DrawSquare();
+	SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 100);
+	SDL_RenderFillRect(window->GetRender(), &movesRect);
 }
 
-void Draw::DrawBoard()
+void Draw::DrawBoard(SDL_Rect &boardRect, int r, int c)
 {
-	for (int r = 0; r < row; r++)
+	if ((r + c) % 2 == 0)
 	{
-		for (int c = 0; c < col; c++)
-		{
-			board->SetBoardRect(r, c);
-			if ((r + c) % 2 == 0)
-			{
-				SDL_SetRenderDrawColor(window->GetRender(), 255, 255, 255, 50);
-			}
-			else
-			{
-				SDL_SetRenderDrawColor(window->GetRender(), 150, 105, 63, 255);
-			}
-			SDL_RenderFillRect(window->GetRender(), &board->GetBoardRect());
-		}
+		SDL_SetRenderDrawColor(window->GetRender(), 255, 255, 255, 50);
 	}
-}
-
-void Draw::DrawPiece()
-{
-	for (int i = 0; i < board->GetPieceList().size(); i++)
+	else
 	{
-		board->SetBoardArray(board->GetPieceList()[i]->rect.x / board->GetTileSize(), board->GetPieceList()[i]->rect.y / board->GetTileSize(), board->GetPieceList()[i]->type);
-		if (board->GetBoardArray(board->GetPieceList()[i]->rect.x / board->GetTileSize(), board->GetPieceList()[i]->rect.y / board->GetTileSize()) != 0)
-		{
-			SDL_RenderCopy(window->GetRender(), board->GetPieceList()[i]->tex, NULL, &board->GetPieceList()[i]->rect);
-		}
+		SDL_SetRenderDrawColor(window->GetRender(), 150, 105, 63, 255);
 	}
+	SDL_RenderFillRect(window->GetRender(), &boardRect);
 }
 
-void Draw::DrawAvailableMoves()
+void Draw::DrawPiece(SDL_Texture &tex, SDL_Rect &pieceRect)
 {
-	for (int i = 0; i < board->GetClickedPiece()->moves.size(); i++)
-	{
-
-	}
+	SDL_RenderCopy(window->GetRender(), &tex, NULL, &pieceRect);
 }
 
-void Draw::DrawSquare()
+
+void Draw::DrawSquare(int tileSize)
 {
-	sqRect = { Input::MouseX() - (Input::MouseX() % board->GetTileSize()), Input::MouseY() - (Input::MouseY() % board->GetTileSize()), board->GetTileSize(), board->GetTileSize() };
+	sqRect = { Input::MouseX() - (Input::MouseX() % tileSize), Input::MouseY() - (Input::MouseY() % tileSize), tileSize, tileSize };
 	SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 255);
 	SDL_RenderDrawRect(window->GetRender(), &sqRect);
 }

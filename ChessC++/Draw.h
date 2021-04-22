@@ -7,19 +7,16 @@ class Draw
 {
 private:
 	Window* window;
-	BoardManager* board;
 
 public:
-	Draw(Window* window, BoardManager* board);
+	Draw(Window* window);
 
-	void Update();
+	void DrawAvailableMoves(SDL_Rect &movesRect);
+	void DrawBoard(SDL_Rect & boardRect, int r, int c);
+	void DrawPiece(SDL_Texture &tex, SDL_Rect& pieceRect);
+	void DrawSquare(int tileSize);
 
 private:
-	void DrawBoard();
-	void DrawPiece();
-	void DrawAvailableMoves();
-	void DrawSquare();
-
 	SDL_Rect sqRect;
 };
 

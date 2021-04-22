@@ -29,15 +29,18 @@ private:
 
 public:
 	Piece(Window* window, int type, int tileSize, bool isWhite, int rectX, int rectY);
-	Piece() {}
 	~Piece();
 
+	void ShowAvailableMoves();
+
+	bool CanContinueMoving();
 
 public:
 	SDL_Surface* surface;
 	SDL_Texture* tex;
 
 	std::vector<Vector2D*> moves;
+	std::vector<Vector2D*> availableMoves;
 
 	int type;
 	int gridPosX = 0;
