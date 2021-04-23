@@ -4,11 +4,11 @@
 class BoardManager
 {
 private:
-	Board* board;
 	Window* window;
 
 public:
 	BoardManager(Window* window);
+	Board* board;
 
 	void SetClickedPiece(int x, int y);
 	Piece* GetClickedPiece();

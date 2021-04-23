@@ -27,7 +27,7 @@ void UserManager::ClickPiece(int tileSize)
 	}
 }
 
-void UserManager::MovePiece(Piece* clickedPiece, int size)
+void UserManager::MovePiece(Piece* clickedPiece, int size, Board* board)
 {
 	if (canMove)
 	{
@@ -37,6 +37,7 @@ void UserManager::MovePiece(Piece* clickedPiece, int size)
 		{
 			if (x == clickedPiece->availableMoves[i]->x && y == clickedPiece->availableMoves[i]->y)
 			{
+				board->boardArray[y][x] = 0;
 				clickedPiece->gridPosX = x;
 				clickedPiece->gridPosY = y;
 				clickedPiece->rect.x = clickedX;

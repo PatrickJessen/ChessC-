@@ -18,7 +18,7 @@ void GameManager::UpdateGUI()
 {
 	CreateBoard();
 	CreateAvailableMoves();
-	user->MovePiece(board->GetClickedPiece(), board->GetTileSize());
+	user->MovePiece(board->GetClickedPiece(), board->GetTileSize(), board->board);
 	CreatePieces();
 	draw->DrawSquare(board->GetTileSize());
 }
