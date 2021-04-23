@@ -10,6 +10,7 @@ void Draw::DrawAvailableMoves(Piece* piece, int tileSize)
 	for (int i = 0; i < piece->availableMoves.size(); i++)
 	{
 		movesRect = { piece->availableMoves[i]->x * tileSize, piece->availableMoves[i]->y * tileSize, tileSize, tileSize };
+		
 		SDL_SetRenderDrawColor(window->GetRender(), 255, 0, 0, 50);
 		SDL_RenderFillRect(window->GetRender(), &movesRect);
 	}

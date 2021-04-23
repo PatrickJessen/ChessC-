@@ -13,10 +13,10 @@ public:
 
 public:
 	bool isClicked = false;
-	bool canMove = false;
 	int clickedX;
 	int clickedY;
 
-	int timesClicked = 0;
+private:
+	void CapturePiece(Piece* clickedPiece, Board* board);
 };
 

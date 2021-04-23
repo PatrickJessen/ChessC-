@@ -20,7 +20,10 @@ public:
 	SDL_Rect& GetBoardRect();
 	std::vector<Piece*> GetPieceList();
 
+	bool IsSameColor(int x, int y);
+
 private:
 	Piece* clickedPiece;
+	bool isPieceSameColor(int x, int y);
 };
 

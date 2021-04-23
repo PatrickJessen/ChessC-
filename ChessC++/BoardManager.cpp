@@ -38,6 +38,23 @@ std::vector<Piece*> BoardManager::GetPieceList()
 	return board->pieces;
 }
 
+bool BoardManager::IsSameColor(int x, int y)
+{
+	for (int i = 0; i < board->pieces.size(); i++)
+	{
+		if (board->pieces[i]->gridPosX == x && board->pieces[i]->gridPosY == y)
+		{
+			if (board->pieces[i]->isWhite && clickedPiece->isWhite || !board->pieces[i]->isWhite && !clickedPiece->isWhite)
+			{			 
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
+
 void BoardManager::SetBoardRect(int x, int y)
 {
 	board->boardRect = { x * board->tileSize, y * board->tileSize, board->tileSize, board->tileSize };
@@ -60,8 +77,24 @@ void BoardManager::GetAvailableMoves()
 			clickedPiece->availableMoves.push_back(new Vector2D(x, y));
 			x += clickedPiece->moves[i]->x;
 			y += clickedPiece->moves[i]->y;
+			if (!IsSameColor(x, y))
+			{
+				clickedPiece->availableMoves.push_back(new Vector2D(x, y));
+			}
+
 		}
-		clickedPiece->availableMoves.push_back(new Vector2D(x, y));
+		if (!clickedPiece->CanContinueMoving() && board->boardArray[y][x] == 0)
+		{
+			//fix
+			if (!IsSameColor(x, y))
+			{
+				clickedPiece->availableMoves.push_back(new Vector2D(x, y));
+			}
+		}
+		if (!IsSameColor(x, y))
+		{
+			clickedPiece->availableMoves.push_back(new Vector2D(x, y));
+		}
 	}
 }
 

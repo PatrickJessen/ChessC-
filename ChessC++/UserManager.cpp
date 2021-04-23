@@ -12,39 +12,40 @@ void UserManager::ClickPiece(int tileSize)
 	clickedY = Input::MouseY() - (Input::MouseY() % tileSize);
 	if (Input::MousePressed(MouseButton::LEFT))
 	{
-		if (isClicked)
-		{
-			isClicked = false;
-			canMove = true;
-		}
-		else if (canMove)
-		{
-			canMove = false;
-			isClicked = true;
-		}
-		else
-			isClicked = true;
+		std::cout << clickedX / tileSize << " + " << clickedY / tileSize << "\n";
+		isClicked = true;
 	}
 }
 
 void UserManager::MovePiece(Piece* clickedPiece, int size, Board* board)
 {
-	if (canMove)
+	if (isClicked)
 	{
+		isClicked = false;
 		int x = clickedX / size;
 		int y = clickedY / size;
 		for (int i = 0; i < clickedPiece->availableMoves.size(); i++)
 		{
 			if (x == clickedPiece->availableMoves[i]->x && y == clickedPiece->availableMoves[i]->y)
 			{
-				board->boardArray[y][x] = 0;
+				board->boardArray[clickedPiece->gridPosY][clickedPiece->gridPosX] = 0;
 				clickedPiece->gridPosX = x;
 				clickedPiece->gridPosY = y;
 				clickedPiece->rect.x = clickedX;
 				clickedPiece->rect.y = clickedY;
-				return;
+				//CapturePiece(clickedPiece, board);
 			}
 		}
-		canMove = false;
+	}
+}
+
+void UserManager::CapturePiece(Piece* clickedPiece, Board* board)
+{
+	for (int i = 0; i < board->pieces.size(); i++)
+	{
+		if (clickedPiece->gridPosX == board->pieces[i]->gridPosX && clickedPiece->gridPosY == board->pieces[i]->gridPosY)
+		{
+			board->pieces.erase(board->pieces.begin() + i);
+		}
 	}
 }

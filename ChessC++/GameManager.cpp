@@ -49,24 +49,10 @@ void GameManager::CreatePieces()
 
 void GameManager::CreateAvailableMoves()
 {
-	int test[col][row];
 	if (board->GetClickedPiece() != NULL)
 	{
 		board->GetAvailableMoves();
 		draw->DrawAvailableMoves(board->GetClickedPiece(), board->GetTileSize());
-		/*for (int i = 0; i < board->GetClickedPiece()->moves.size(); i++)
-		{
-			int x = board->GetClickedPiece()->moves[i]->x + board->GetClickedPiece()->gridPosX;
-			int y = board->GetClickedPiece()->moves[i]->y + board->GetClickedPiece()->gridPosY;
-
-			while (board->GetClickedPiece()->CanContinueMoving() && board->GetBoardArray(x, y) == 0)
-			{
-				board->GetClickedPiece()->availableMoves.push_back(new Vector2D(x, y));
-				x++;
-				y++;
-			}
-			board->GetClickedPiece()->availableMoves.push_back(new Vector2D(x, y));
-		}*/
 	}
 }
 

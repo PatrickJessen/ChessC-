@@ -29,6 +29,8 @@ private:
 	int test1 = 0;
 	int test2 = 0;
 
+	bool turn = true;
+
 private:
 	SDL_Rect highlighterRect;
 };
