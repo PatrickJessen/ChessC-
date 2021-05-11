@@ -15,6 +15,7 @@ public:
 	int GetBoardArray(int x, int y);
 	void SetBoardArray(int x, int y, int value);
 	void SetBoardRect(int x, int y);
+	bool CheckTurn();
 	int GetTileSize();
 	void GetAvailableMoves();
 	SDL_Rect& GetBoardRect();
@@ -25,5 +26,6 @@ public:
 private:
 	Piece* clickedPiece;
 	bool isPieceSameColor(int x, int y);
+	bool whiteGoes = true;
 };
 

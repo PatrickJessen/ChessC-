@@ -19,9 +19,8 @@ void UserManager::ClickPiece(int tileSize)
 
 void UserManager::MovePiece(Piece* clickedPiece, int size, Board* board)
 {
-	if (isClicked)
+	if (isClicked && clickedPiece != NULL)
 	{
-		isClicked = false;
 		int x = clickedX / size;
 		int y = clickedY / size;
 		for (int i = 0; i < clickedPiece->availableMoves.size(); i++)
@@ -34,8 +33,10 @@ void UserManager::MovePiece(Piece* clickedPiece, int size, Board* board)
 				clickedPiece->rect.x = clickedX;
 				clickedPiece->rect.y = clickedY;
 				//CapturePiece(clickedPiece, board);
+				isClicked = false;
 			}
 		}
+
 	}
 }
 

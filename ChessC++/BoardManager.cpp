@@ -18,6 +18,15 @@ void BoardManager::SetClickedPiece(int x, int y)
 	}
 }
 
+bool BoardManager::CheckTurn()
+{
+	if (board->IsPieceWhite() && whiteGoes || !board->IsPieceWhite() && !whiteGoes)
+	{
+		return true;
+	}
+	return false;
+}
+
 Piece* BoardManager::GetClickedPiece()
 {
 	return clickedPiece;

@@ -39,7 +39,7 @@ void GameManager::CreatePieces()
 {
 	for (int i = 0; i < board->GetPieceList().size(); i++)
 	{
-		board->SetBoardArray(board->GetPieceList()[i]->rect.x / board->GetTileSize(), board->GetPieceList()[i]->rect.y / board->GetTileSize(), board->GetPieceList()[i]->type);
+		board->SetBoardArray(board->GetPieceList()[i]->rect.x / board->GetTileSize(), board->GetPieceList()[i]->rect.y / board->GetTileSize(), (int)board->GetPieceList()[i]->type);
 		if (board->GetBoardArray(board->GetPieceList()[i]->rect.x / board->GetTileSize(), board->GetPieceList()[i]->rect.y / board->GetTileSize()) != 0)
 		{
 			draw->DrawPiece(*board->GetPieceList()[i]->tex, board->GetPieceList()[i]->rect);

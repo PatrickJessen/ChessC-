@@ -18,5 +18,7 @@ public:
 
 private:
 	void CapturePiece(Piece* clickedPiece, Board* board);
+	int clickCount = 0;
+	bool isWhiteTurn = true;
 };
 

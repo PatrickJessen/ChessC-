@@ -1,14 +1,18 @@
 #include "Piece.h"
 #include <string>
 
-Piece::Piece(Window* window, int type, int tileSize, bool isWhite, int rectX, int rectY)
+Piece::Piece(Window* window, int tileSize, PieceType type, bool isWhite, int rectX, int rectY)
 {
 	this->window = window;
 	this->type = type;
 	this->isWhite = isWhite;
 
-	StartProperties(tileSize);
-	surface = IMG_Load(path);
+	path = "Assets/";
+	path.append(ToString(isWhite));
+	path.append(ToString(type));
+
+	StartProperties();
+	surface = IMG_Load(path.c_str());
 	tex = SDL_CreateTextureFromSurface(window->GetRender(), surface);
 	rect = { rectX * tileSize, rectY * tileSize, size, size };
 	gridPosX = rectX * tileSize / size;
@@ -21,104 +25,74 @@ Piece::~Piece()
 	SDL_FreeSurface(surface);
 }
 
-void Piece::ShowAvailableMoves(int board[8][8])
-{
-	for (int i = 0; i < moves.size(); i++)
-	{
-		int x = moves[i]->x + gridPosX;
-		int y = moves[i]->y + gridPosY;
-
-		while (CanContinueMoving() && board[y][x] == 0)
-		{
-			availableMoves.push_back(new Vector2D(x, y));
-			x += moves[i]->x;
-			y += moves[i]->y;
-		}
-		availableMoves.push_back(new Vector2D(x, y));
-	}
-}
-
 bool Piece::CanContinueMoving()
 {
-	if (type == 2 || type == 5 || type == 7 || type == 9)
+	if (type == PieceType::Pawn || type == PieceType::Knight || type == PieceType::King)
 	{
 		return false;
 	}
 	return true;
 }
 
-void Piece::StartProperties(int tileSize)
+bool Piece::IsWhite()
+{
+	if (isWhite)
+	{
+		return true;
+	}
+	return false;
+}
+
+void Piece::StartProperties()
 {
 	switch (type)
 	{
-	case 5:
-		moves = { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1), new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
-		if (isWhite)
-			path = "Assets/WhiteKing.png";
-		else
-			path = "Assets/BlackKing.png";
+	case PieceType::Tower:
+		moves = { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) };
 		break;
-	case 9:
+	case PieceType::Knight:
+		moves = { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1), new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) };
+		break;
+	case PieceType::Bishop:
+		moves = { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
+		break;
+	case PieceType::Queen:
+		moves = { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1), new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
+		break;
+	case PieceType::King:
+		moves = { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1), new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
+		break;
+	case PieceType::Pawn:
 		if (isWhite)
-		{
 			moves = { new Vector2D(0, -1), new Vector2D(0, -2) };
-			path = "Assets/WhitePawn.png";
-		}
 		else
-		{
 			moves = { new Vector2D(0, 1), new Vector2D(0, 2) };
-			path = "Assets/BlackPawn.png";
-		}
-		break;
-	case 2:
-		moves = { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1), new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) };
-		if (isWhite)
-			path = "Assets/WhiteKnight.png";
-		else
-			path = "Assets/BlackKnight.png";
-		break;
-	case 3:
-		moves = { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
-		if (isWhite)
-			path = "Assets/WhiteBishop.png";
-		else
-			path = "Assets/BlackBishop.png";
-		break;
-	case 1:
-		moves = { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) };
-		if (isWhite)
-			path = "Assets/WhiteTower.png";
-		else
-			path = "Assets/BlackTower.png";
-		break;
-	case 4:
-		moves = { new Vector2D(0, 1), new Vector2D({ 1, 0 }), new Vector2D(-1, 0), new Vector2D(0, -1), new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
-		if (isWhite)
-			path = "Assets/WhiteQueen.png";
-		else
-			path = "Assets/BlackQueen.png";
-		break;
-	case 7:
-		moves = { new Vector2D(2, 1), new Vector2D(1, 2), new Vector2D(2, -1), new Vector2D(-1, 2), new Vector2D(-2, 1), new Vector2D(-2, -1), new Vector2D(1, -2), new Vector2D(1, 2), new Vector2D(-1, 2), new Vector2D(-1, -2) };
-		if (isWhite)
-			path = "Assets/WhiteKnight.png";
-		else
-			path = "Assets/BlackKnight.png";
-		break;
-	case 6:
-		moves = { new Vector2D(-1, 1), new Vector2D(-1, -1), new Vector2D(1, 1), new Vector2D(1, -1) };
-		if (isWhite)
-			path = "Assets/WhiteBishop.png";
-		else
-			path = "Assets/BlackBishop.png";
-		break;
-	case 8:
-		moves = { new Vector2D(0, 1), new Vector2D(1, 0), new Vector2D(-1, 0), new Vector2D(0, -1) };
-		if (isWhite)
-			path = "Assets/WhiteTower.png";
-		else
-			path = "Assets/BlackTower.png";
 		break;
 	}
 }
+
+// Convert enum type to string
+inline const char* Piece::ToString(PieceType type)
+{
+	switch (type)
+	{
+	case PieceType::Tower: return "Tower.png";
+	case PieceType::Knight: return "Knight.png";
+	case PieceType::Bishop: return "Bishop.png";
+	case PieceType::King: return "King.png";
+	case PieceType::Queen: return "Queen.png";
+	case PieceType::Pawn: return "Pawn.png";
+	}
+}
+
+// convert bool type to string
+inline const char* Piece::ToString(bool isWhite)
+{
+	if (isWhite)
+	{
+		return "White";
+	}
+	return "Black";
+}
+
 

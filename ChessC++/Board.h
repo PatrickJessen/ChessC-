@@ -15,6 +15,10 @@ public:
 	Board(Window* window);
 	~Board();
 
+	bool IsPieceWhite();
+	int GetClickedPosX();
+	int GetClickedPosY();
+
 	int tileSize = 94;
 	int boardArray[col][row];
 	std::vector<Piece*> pieces;
