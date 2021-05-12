@@ -9,18 +9,25 @@ GameManager::GameManager(Window* window)
 
 void GameManager::UpdateLogic()
 {
-	Clear();
-	user->ClickPiece(board->GetTileSize());
-	UpdateClickedPiece();
+	CreateBoard();
+	if (board->GetClickedPiece() != NULL)
+	{
+		board->CheckIfPawnMoved();
+		board->CanPawnCapture();
+		board->GetAvailableMoves();
+		board->GetAvailablePawnMoves();
+		user->MovePiece(board->GetClickedPiece(), board->GetTileSize(), board);
+	}
+	user->ClickPiece(board->GetTileSize(), board);
+	//UpdateClickedPiece();
 }
 
 void GameManager::UpdateGUI()
 {
-	CreateBoard();
 	CreateAvailableMoves();
-	user->MovePiece(board->GetClickedPiece(), board->GetTileSize(), board->board);
 	CreatePieces();
 	draw->DrawSquare(board->GetTileSize());
+	Clear();
 }
 
 void GameManager::CreateBoard()
@@ -49,9 +56,8 @@ void GameManager::CreatePieces()
 
 void GameManager::CreateAvailableMoves()
 {
-	if (board->GetClickedPiece() != NULL)
+	if (board->GetClickedPiece() != NULL && board->CheckTurn())
 	{
-		board->GetAvailableMoves();
 		draw->DrawAvailableMoves(board->GetClickedPiece(), board->GetTileSize());
 	}
 }
@@ -60,7 +66,7 @@ void GameManager::UpdateClickedPiece()
 {
 	if (user->isClicked)
 	{
-		board->SetClickedPiece(user->clickedX / board->GetTileSize(), user->clickedY / board->GetTileSize());
+		//board->SetClickedPiece(user->clickedX / board->GetTileSize(), user->clickedY / board->GetTileSize());
 	}
 }
 
@@ -87,3 +93,5 @@ bool GameManager::IsPieceSameColor(int x, int y)
 	}
 	return false;
 }
+
+

@@ -2,14 +2,15 @@
 #include "Input.h"
 #include "Piece.h"
 #include "Board.h"
+#include "BoardManager.h"
 
 class UserManager
 {
 public:
 	UserManager();
 
-	void ClickPiece(int tileSize);
-	void MovePiece(Piece* clickedPiece, int size, Board* board);
+	void ClickPiece(int tileSize, BoardManager* board);
+	void MovePiece(Piece* clickedPiece, int size, BoardManager* board);
 
 public:
 	bool isClicked = false;
@@ -17,8 +18,8 @@ public:
 	int clickedY;
 
 private:
-	void CapturePiece(Piece* clickedPiece, Board* board);
+	void CapturePiece(Piece* clickedPiece, BoardManager* board);
 	int clickCount = 0;
-	bool isWhiteTurn = true;
+	bool whiteGoes = true;
 };
 

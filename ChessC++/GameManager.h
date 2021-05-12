@@ -6,10 +6,10 @@
 class GameManager
 {
 private:
-	BoardManager* board;
 	UserManager* user;
 	Draw* draw;
 public:
+	BoardManager* board;
 	GameManager(Window* window);
 
 	void UpdateLogic();
@@ -25,11 +25,7 @@ private:
 	bool IsPieceSameColor(int x, int y);
 
 	bool secondClick = false;
-
-	int test1 = 0;
-	int test2 = 0;
-
-	bool turn = true;
+	bool whiteGoes = true;
 
 private:
 	SDL_Rect highlighterRect;

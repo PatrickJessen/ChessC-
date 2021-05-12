@@ -18,15 +18,6 @@ void BoardManager::SetClickedPiece(int x, int y)
 	}
 }
 
-bool BoardManager::CheckTurn()
-{
-	if (board->IsPieceWhite() && whiteGoes || !board->IsPieceWhite() && !whiteGoes)
-	{
-		return true;
-	}
-	return false;
-}
-
 Piece* BoardManager::GetClickedPiece()
 {
 	return clickedPiece;
@@ -47,6 +38,23 @@ std::vector<Piece*> BoardManager::GetPieceList()
 	return board->pieces;
 }
 
+void BoardManager::RemovePieceAtIndex(int i)
+{
+	board->pieces.erase(board->pieces.begin() + i);
+}
+
+void BoardManager::SetTurn()
+{
+	if (clickedPiece->IsWhite())
+	{
+		board->whiteGoes = false;
+	}
+	else
+	{
+		board->whiteGoes = true;
+	}
+}
+
 bool BoardManager::IsSameColor(int x, int y)
 {
 	for (int i = 0; i < board->pieces.size(); i++)
@@ -62,6 +70,22 @@ bool BoardManager::IsSameColor(int x, int y)
 	return false;
 }
 
+void BoardManager::CheckIfPawnMoved()
+{
+	if (clickedPiece->type == PieceType::Pawn)
+	{
+		if (clickedPiece->hasMoved && clickedPiece->IsWhite())
+		{
+			clickedPiece->moves.clear();
+			clickedPiece->moves.push_back(new Vector2D(0, -1));
+		}
+		else if (clickedPiece->hasMoved && !clickedPiece->IsWhite())
+		{
+			clickedPiece->moves.clear();
+			clickedPiece->moves.push_back(new Vector2D(0, 1));
+		}
+	}
+}
 
 
 void BoardManager::SetBoardRect(int x, int y)
@@ -80,7 +104,6 @@ void BoardManager::GetAvailableMoves()
 	{
 		int x = clickedPiece->moves[i]->x + clickedPiece->gridPosX;
 		int y = clickedPiece->moves[i]->y + clickedPiece->gridPosY;
-
 		while (clickedPiece->CanContinueMoving() && board->boardArray[y][x] == 0)
 		{
 			clickedPiece->availableMoves.push_back(new Vector2D(x, y));
@@ -90,7 +113,6 @@ void BoardManager::GetAvailableMoves()
 			{
 				clickedPiece->availableMoves.push_back(new Vector2D(x, y));
 			}
-
 		}
 		if (!clickedPiece->CanContinueMoving() && board->boardArray[y][x] == 0)
 		{
@@ -107,9 +129,74 @@ void BoardManager::GetAvailableMoves()
 	}
 }
 
+void BoardManager::GetAvailablePawnMoves()
+{
+	if (!CanPawnMove())
+	{
+		if (clickedPiece->IsWhite())
+		{
+			clickedPiece->availableMoves.clear();
+			clickedPiece->availableMoves.push_back(new Vector2D(clickedPiece->gridPosX, clickedPiece->gridPosY - 1));
+		}
+		else
+		{
+			clickedPiece->availableMoves.clear();
+			clickedPiece->availableMoves.push_back(new Vector2D(clickedPiece->gridPosX, clickedPiece->gridPosY + 1));
+		}
+	}
+}
+
+void BoardManager::CanPawnCapture()
+{
+	if (clickedPiece->type == PieceType::Pawn)
+	{
+		if (clickedPiece->IsWhite())
+		{
+			if (GetBoardArray(clickedPiece->gridPosX + 1, clickedPiece->gridPosY - 1) != 0)
+			{
+				clickedPiece->moves.push_back(new Vector2D(1, -1));
+			}
+			else if (GetBoardArray(clickedPiece->gridPosX - 1, clickedPiece->gridPosY - 1) != 0)
+			{
+				clickedPiece->moves.push_back(new Vector2D(-1, -1));
+			}
+		}
+		else if (!clickedPiece->IsWhite())
+		{
+			if (GetBoardArray(clickedPiece->gridPosX - 1, clickedPiece->gridPosY + 1) != 0 && GetBoardArray(clickedPiece->gridPosX + 1, clickedPiece->gridPosY + 1) != 0)
+			{
+				clickedPiece->moves.push_back(new Vector2D(-1, +1));
+				clickedPiece->moves.push_back(new Vector2D(+1, +1));
+			}
+			else if (GetBoardArray(clickedPiece->gridPosX + 1, clickedPiece->gridPosY + 1) != 0)
+			{
+				clickedPiece->moves.push_back(new Vector2D(+1, +1));
+			}
+			else if (GetBoardArray(clickedPiece->gridPosX - 1, clickedPiece->gridPosY + 1) != 0)
+			{
+				clickedPiece->moves.push_back(new Vector2D(-1, +1));
+			}
+		}
+	}
+}
+
+bool BoardManager::CanPawnMove()
+{
+	if (clickedPiece->GetType() == PieceType::Pawn)
+	{
+		if (clickedPiece->IsWhite() && GetBoardArray(clickedPiece->gridPosX, clickedPiece->gridPosY -1) != 0)
+		{
+			return false;
+		}
+		else if (!clickedPiece->IsWhite() && GetBoardArray(clickedPiece->gridPosX, clickedPiece->gridPosY + 1) != 0)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
 SDL_Rect& BoardManager::GetBoardRect()
 {
 	return board->boardRect;
 }
-
-

@@ -52,6 +52,8 @@ public:
 	int gridPosY = 0;
 	int size = 90;
 	bool isWhite;
+	bool hasMoved = false;
+	bool isChecked = false;
 
 	SDL_Rect rect;
 

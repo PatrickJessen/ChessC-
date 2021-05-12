@@ -1,5 +1,4 @@
 #include "Board.h"
-#include "Input.h"
 
 
 Board::Board(Window* window)
@@ -38,21 +37,6 @@ Board::~Board()
 
 }
 
-bool Board::IsPieceWhite()
-{
-	for (int i = 0; i < pieces.size(); i++)
-	{
-		if (pieces[i]->GetRect().x == GetClickedPosX() && pieces[i]->GetRect().y == GetClickedPosY())
-		{
-			if (pieces[i]->IsWhite())
-			{
-				return true;
-			}
-			return false;
-		}
-	}
-	return false;
-}
 
 int Board::GetClickedPosX()
 {
@@ -62,4 +46,13 @@ int Board::GetClickedPosX()
 int Board::GetClickedPosY()
 {
 	return Input::MouseY() - (Input::MouseY() % tileSize);
+}
+
+bool Board::CheckTurn(Piece* clickedPiece)
+{
+	if (clickedPiece->IsWhite() && whiteGoes || !clickedPiece->IsWhite() && !whiteGoes)
+	{
+		return true;
+	}
+	return false;
 }
