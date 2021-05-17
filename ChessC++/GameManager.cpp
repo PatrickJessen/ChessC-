@@ -15,7 +15,6 @@ void GameManager::UpdateLogic()
 		board->CheckIfPawnMoved();
 		board->CanPawnCapture();
 		board->GetAvailableMoves();
-		board->GetAvailablePawnMoves();
 		user->MovePiece(board->GetClickedPiece(), board->GetTileSize(), board);
 	}
 	user->ClickPiece(board->GetTileSize(), board);

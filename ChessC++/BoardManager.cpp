@@ -104,6 +104,7 @@ void BoardManager::GetAvailableMoves()
 	{
 		int x = clickedPiece->moves[i]->x + clickedPiece->gridPosX;
 		int y = clickedPiece->moves[i]->y + clickedPiece->gridPosY;
+
 		while (clickedPiece->CanContinueMoving() && board->boardArray[y][x] == 0)
 		{
 			clickedPiece->availableMoves.push_back(new Vector2D(x, y));
@@ -116,32 +117,40 @@ void BoardManager::GetAvailableMoves()
 		}
 		if (!clickedPiece->CanContinueMoving() && board->boardArray[y][x] == 0)
 		{
-			//fix
-			if (!IsSameColor(x, y))
+			if (!IsSameColor(x, y) && clickedPiece->GetType() == PieceType::Pawn)
+			{
+				clickedPiece->availableMoves.push_back(new Vector2D(x, y));
+				//GetAvailablePawnMoves(x, y);
+			}
+			else if (!IsSameColor(x, y) && clickedPiece->GetType() != PieceType::Pawn)
 			{
 				clickedPiece->availableMoves.push_back(new Vector2D(x, y));
 			}
 		}
-		if (!IsSameColor(x, y))
+		else if (!clickedPiece->CanContinueMoving() && !IsSameColor(x, y) && clickedPiece->GetType() == PieceType::Pawn)
+		{
+			GetAvailablePawnMoves(x, y);
+		}
+		if (!IsSameColor(x, y) && clickedPiece->GetType() != PieceType::Pawn)
 		{
 			clickedPiece->availableMoves.push_back(new Vector2D(x, y));
 		}
 	}
 }
 
-void BoardManager::GetAvailablePawnMoves()
+void BoardManager::GetAvailablePawnMoves(int x, int y)
 {
-	if (!CanPawnMove())
+	if (CanPawnMove(x, y) && clickedPiece->hasMoved)
 	{
 		if (clickedPiece->IsWhite())
 		{
-			clickedPiece->availableMoves.clear();
-			clickedPiece->availableMoves.push_back(new Vector2D(clickedPiece->gridPosX, clickedPiece->gridPosY - 1));
+			//clickedPiece->availableMoves.clear();
+			//clickedPiece->availableMoves.push_back(new Vector2D(x, y - 0));
 		}
 		else
 		{
-			clickedPiece->availableMoves.clear();
-			clickedPiece->availableMoves.push_back(new Vector2D(clickedPiece->gridPosX, clickedPiece->gridPosY + 1));
+			//clickedPiece->availableMoves.clear();
+			//clickedPiece->availableMoves.push_back(new Vector2D(x, y + 0));
 		}
 	}
 }
@@ -180,15 +189,31 @@ void BoardManager::CanPawnCapture()
 	}
 }
 
-bool BoardManager::CanPawnMove()
+bool BoardManager::CanPawnCaptureTest()
 {
 	if (clickedPiece->GetType() == PieceType::Pawn)
 	{
-		if (clickedPiece->IsWhite() && GetBoardArray(clickedPiece->gridPosX, clickedPiece->gridPosY -1) != 0)
+		if (clickedPiece->IsWhite())
+		{
+			
+		}
+		else
+		{
+			
+		}
+	}
+	return false;
+}
+
+bool BoardManager::CanPawnMove(int x, int y)
+{
+	if (clickedPiece->GetType() == PieceType::Pawn)
+	{
+		if (clickedPiece->IsWhite() && GetBoardArray(x, y -1) != 0)
 		{
 			return false;
 		}
-		else if (!clickedPiece->IsWhite() && GetBoardArray(clickedPiece->gridPosX, clickedPiece->gridPosY + 1) != 0)
+		else if (!clickedPiece->IsWhite() && GetBoardArray(x, y + 1) != 0)
 		{
 			return false;
 		}

@@ -13,6 +13,7 @@ int main()
 		//manager->Update();
 		window->Update();
 		window->Clear();
+		SDL_Delay(1);
 	}
 
 	window->Clean();

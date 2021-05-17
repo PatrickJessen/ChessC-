@@ -16,9 +16,10 @@ public:
 	void SetClickedPieceToNULL() { clickedPiece = NULL; }
 	void RemovePieceAtIndex(int i);
 	void GetAvailableMoves();
-	void GetAvailablePawnMoves();
+	void GetAvailablePawnMoves(int x, int y);
 	void CanPawnCapture();
-	bool CanPawnMove();
+	bool CanPawnCaptureTest();
+	bool CanPawnMove(int x, int y);
 	int GetBoardArray(int x, int y);
 	int GetTileSize();
 	int GetClickedX() { return Input::MouseX() - (Input::MouseX() % board->tileSize); }
